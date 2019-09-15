@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-# JPEG Tags Payload Creator
+# JPEG Payload Creator/Injector
 # coded by chinarulezzz, alexandr.savca89@gmail.com
 #
 # See LICENSE file for copyright and license details.
@@ -30,7 +30,7 @@ usage(1) unless $outfile;
 $payload //= '<script src//nji.xyz></script>';
 
 say <<EOF;
-[>|        JPEG Tags ~ Payload Creator      |<]
+[>|           JPEG Payload Creator          |<]
 
     https://github.com/chinarulezzz/pixload
 
