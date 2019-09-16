@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 #
 # BMP Payload Creator/Injector
+#
 # coded by chinarulezzz, alexandr.savca89@gmail.com
 # credits to Osanda Malith Jayathissa
 #
@@ -12,7 +13,6 @@ use warnings;
 use feature qw(say);
 
 use Getopt::Long;
-use GD;
 
 sub usage;
 sub create_bmp;

