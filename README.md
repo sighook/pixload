@@ -163,6 +163,8 @@ existing file.  Else the new one will be created.
 ##### Example
 
 ```sh
+./png.pl -output payload.png
+
 [>|      PNG Payload Creator/Injector       |<]
 
     https://github.com/chinarulezzz/pixload
