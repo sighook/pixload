@@ -4,13 +4,13 @@
 
 Set of tools for creating/injecting payload into images.
 
-## DEPENDS
+## SETUP
 
 The following Perl modules are required:
 
 	- GD
 
-	- ImageExif::Tool
+	- Image::ExifTool
 
 	- String::CRC32
 
@@ -19,6 +19,10 @@ On Debian-based systems install these packages:
 ```sh
 sudo apt install libgd-perl libimage-exiftool-perl libstring-crc32-perl
 ```
+
+On OSX please refer to [this workaround](https://github.com/chinarulezzz/pixload/issues/3).
+
+Thanks to @iosdec
 
 ## TOOLS
 
