@@ -4,25 +4,41 @@
 
 Set of tools for creating/injecting payload into images.
 
+Useful references for better understanding of `pixload` and its use-cases:
+
+- [Bypassing CSP using polyglot JPEGs](https://portswigger.net/blog/bypassing-csp-using-polyglot-jpegs)
+
+- [Hacking group using Polyglot images to hide malvertising attacks](https://devcondetect.com/blog/2019/2/24/hacking-group-using-polyglot-images-to-hide-malvertsing-attacks)
+
+- [Encoding Web Shells in PNG IDAT chunks](https://www.idontplaydarts.com/2012/06/encoding-web-shells-in-png-idat-chunks/)
+
+- [An XSS on Facebook via PNGs & Wonky Content Types](https://whitton.io/articles/xss-on-facebook-via-png-content-types/)
+
+- [Revisiting XSS payloads in PNG IDAT chunks](https://www.adamlogue.com/revisiting-xss-payloads-in-png-idat-chunks/)
+
+If you want to encode a payload in such a way that the resulting binary blob is
+both valid x86 shellcode and a valid image file, I recommend you to look
+[here](https://warroom.securestate.com/bmp-x86-polyglot/) and
+[here](https://github.com/rapid7/metasploit-framework/blob/master/modules/encoders/x86/bmp_polyglot.rb).
+
 ## SETUP
 
 The following Perl modules are required:
 
-	- GD
+  * GD
 
-	- Image::ExifTool
+  * Image::ExifTool
 
-	- String::CRC32
+  * String::CRC32
 
-On Debian-based systems install these packages:
+On `Debian-based` systems install these packages:
 
 ```sh
 sudo apt install libgd-perl libimage-exiftool-perl libstring-crc32-perl
 ```
 
-On OSX please refer to [this workaround](https://github.com/chinarulezzz/pixload/issues/3).
-
-Thanks to @iosdec
+On `OSX` please refer to [this workaround](https://github.com/chinarulezzz/pixload/issues/3)
+(thnx 2 @iosdec).
 
 ## TOOLS
 
@@ -223,3 +239,8 @@ The author does not hold any responsibility for the bad use
 of this tool, remember that attacking targets without prior
 consent is illegal and punished by law.
 
+## DONATION
+
+BTC: bc1qu7v2h9hq45cx5x0xgy4438ayn2z2ec4af50rdz
+
+![btc-qrcode.png](btc-qrcode.png)
