@@ -10,10 +10,11 @@
 
 use strict;
 use warnings;
-no  warnings    qw(redefine);
+no  warnings 'redefine';
 
-use feature     qw(say);
+use feature  'say';
 
+use POSIX;
 use Getopt::Long;
 use GD;
 use String::CRC32;
@@ -44,7 +45,6 @@ say <<EOF;
 EOF
 
 create_png              unless -f $outfile;
-
 inject_payload;
 
 say `file       $outfile`   if -f '/usr/bin/file';
@@ -55,11 +55,11 @@ say `hexdump -C $outfile`   if -f '/usr/bin/hexdump';
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
 
 sub systell {
-    sysseek $_[0], 0, 1
+    sysseek $_[0], 0, SEEK_CUR
 }
 
 sub rewind {
-    sysseek $_[0], systell($_[0]) - $_[1], 1
+    sysseek $_[0], systell($_[0]) - $_[1], SEEK_CUR
 }
 
 sub usage {
@@ -85,10 +85,9 @@ sub create_png {
 
     $img->setPixel(0, 0, $color);
 
-    open my $fh, '>', $outfile or die;
-    binmode $fh;
-    print   $fh  $img->png;
-    close   $fh;
+    sysopen my $fh, $outfile, O_CREAT|O_WRONLY;
+    syswrite   $fh, $img->png;
+    close      $fh;
 
     say "[✔] File saved to: $outfile\n";
 }
@@ -96,8 +95,8 @@ sub create_png {
 sub inject_payload {
     say "[>] Injecting payload into $outfile\n";
 
-    sysopen our $fh, $outfile, 2;
-    sysseek     $fh, 8, 0;
+    sysopen our $fh, $outfile, O_RDWR;
+    sysseek     $fh, 8, SEEK_SET;
 
     sub read_chunks {
         *read_next_chunk = \&read_chunks;

