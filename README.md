@@ -40,6 +40,13 @@ sudo apt install libgd-perl libimage-exiftool-perl libstring-crc32-perl
 On `OSX` please refer to [this workaround](https://github.com/chinarulezzz/pixload/issues/3)
 (thnx 2 @iosdec).
 
+#### Docker
+
+```sh
+docker build -t pixload .
+docker run -v "$(pwd):/pixload" -it --rm pixload
+```
+
 ## TOOLS
 
 ### bmp.pl
