@@ -129,8 +129,8 @@ sub inject_payload {
     # chunk size
     syswrite $fh, (pack 'I>', length $payload);
 
-    # chunk name: pUnk
-    syswrite $fh, "\x70\x55\x6e\x6b";
+    # chunk name: PUnK (critical)
+    syswrite $fh, "\x50\x55\x6e\x4b";
 
     syswrite $fh, $payload;
 
