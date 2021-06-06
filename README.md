@@ -52,6 +52,11 @@ On `Debian-based` systems install these packages:
 sudo apt install libgd-perl libimage-exiftool-perl libstring-crc32-perl
 ```
 
+On `FreeBSD` and `DragonFlyBSD` install these packages:
+```sh
+doas pkg install p5-GD p5-Image-ExifTool p5-String-CRC32
+```
+
 On `OSX` please refer to [this workaround](https://github.com/chinarulezzz/pixload/issues/3)
 (thnx 2 @iosdec).
 
