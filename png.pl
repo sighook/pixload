@@ -96,6 +96,17 @@ sub inject_payload {
     say "[>] Injecting payload into $outfile\n";
 
     sysopen our $fh, $outfile, O_RDWR;
+
+    # check if outfile is PNG to prevent infinite loop
+    {
+        my $format;
+        sysseek     $fh, 1, SEEK_SET;
+        sysread     $fh, $format, 3;
+
+        die "ERROR: $outfile is not a PNG file.\n"
+            if $format ne "PNG";
+    }
+
     sysseek     $fh, 8, SEEK_SET;
 
     sub read_chunks {
@@ -122,7 +133,7 @@ sub inject_payload {
     }
     &read_chunks;
 
-    rewind($fh, 8);
+    rewind   $fh, 8;
 
     say "\n[>] Inject payload to the new chunk: 'pUnk'";
 
