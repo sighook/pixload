@@ -43,9 +43,9 @@ inject_payload;
 say `file       $outfile`   if -f '/usr/bin/file';
 say `hexdump -C $outfile`   if -f '/usr/bin/hexdump';
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                Subroutines                                  #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 sub usage {
     say <<"EOF";
@@ -55,7 +55,7 @@ Currently, there is no possibility to inject the payload into an existing
 webp image.  Only the new (minimal) webp image will be created and your
 payload will be injected into.
 
-If the -output argument file exists, the payload will be injected into 
+If the -output argument file exists, the payload will be injected into
 the existing image, but this image will be corrupted.
 EOF
     exit +shift;

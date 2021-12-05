@@ -44,9 +44,9 @@ inject_payload;
 say `file       $outfile`   if -f '/usr/bin/file';
 say `hexdump -C $outfile`   if -f '/usr/bin/hexdump';
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                Subroutines                                  #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 sub usage {
     say <<"EOF";

@@ -43,9 +43,9 @@ inject_payload;
 say `file       $outfile`   if -f '/usr/bin/file';
 say `hexdump -C $outfile`   if -f '/usr/bin/hexdump';
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                Subroutines                                  #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 sub usage {
     say <<"EOF";
@@ -80,7 +80,7 @@ sub inject_payload {
 
     syswrite   $fh, "\x2f\x2a";
     sysseek    $fh, 0, SEEK_END;
-    
+
     syswrite   $fh, "\x2a\x2f\x3d\x31\x3b";
     syswrite   $fh, $payload;
     syswrite   $fh, "\x3b";

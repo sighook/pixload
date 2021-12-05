@@ -57,9 +57,9 @@ else {
 say `file       $outfile`   if -f '/usr/bin/file';
 say `hexdump -C $outfile`   if -f '/usr/bin/hexdump';
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                Subroutines                                  #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 sub usage {
     say <<"EOF";
@@ -123,7 +123,7 @@ sub inject_payload_to_comm {
 
     $exifTool->WriteInfo($outfile)
         or die "[✘] Fail to WriteInfo\n";
-    
+
     say "[✔] Payload was injected successfully\n";
 }
 

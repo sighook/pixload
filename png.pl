@@ -50,9 +50,9 @@ inject_payload;
 say `file       $outfile`   if -f '/usr/bin/file';
 say `hexdump -C $outfile`   if -f '/usr/bin/hexdump';
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                Subroutines                                  #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 sub systell {
     sysseek $_[0], 0, SEEK_CUR
@@ -118,8 +118,8 @@ sub inject_payload {
         sysread $fh, $chunk_type, 4;
 
         $chunk_size = unpack('I>', $chunk_size);
-        
-        say "[+] Chunk size: $chunk_size"; 
+
+        say "[+] Chunk size: $chunk_size";
         say "[+] Chunk type: $chunk_type";
 
         return if $chunk_type eq 'IEND';
