@@ -131,9 +131,10 @@ sub inject_payload {
 
 sub banner {
     <<EOF;
-[>|      PNG Payload Creator/Injector       |<]
-
-    https://github.com/chinarulezzz/pixload
+........ PNG Payload Creator/Injector .........
+...............................................
+... https://github.com/chinarulezzz/pixload ...
+...............................................
 EOF
 }
 
