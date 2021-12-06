@@ -12,7 +12,7 @@ use warnings;
 use feature 'say';
 
 use POSIX;
-use Getopt::Long;
+use Getopt::Long qw(:config no_ignore_case);
 use File::Basename;
 
 use constant PROGRAM => basename $0;
@@ -101,7 +101,7 @@ Usage: @{[ PROGRAM ]} [OPTION]... FILE
 Hide Payload/Malicious Code in JPEG images.
 
 Mandatory arguments to long options are mandatory for short options too.
-  -s, --section COM|DQT         set section for payload injection
+  -S, --section COM|DQT         set section for payload injection
   -P, --payload STRING          set payload for injection
   -v, --version                 print version and exit
   -h, --help                    print help and exit
@@ -120,7 +120,7 @@ sub main {
     GetOptions(
         'h|help!'     =>  \$opts{help},
         'v|version!'  =>  \$opts{version},
-        's|section=s' =>  \$opts{section},
+        'S|section=s' =>  \$opts{section},
         'P|payload=s' =>  \$opts{payload},
     ) or die "$!\n";
 
