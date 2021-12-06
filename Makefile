@@ -21,6 +21,6 @@ uninstall:
 	cd $(DESTDIR)$(MANPREFIX)/man1/ && rm $(MAN)
 
 clean:
-	rm -f $(MAN)
+	rm -f $(SRC) $(MAN)
 
 .PHONY: all install uninstall clean
