@@ -9,7 +9,7 @@ all: $(SRC) $(MAN)
 	sed "s/@VERSION@/$(VERSION)/" $< > $@
 
 %: %.pod
-	pod2man --nourls -r 0.2 -c ' ' -n $(basename $@) \
+	pod2man --nourls -r $(VERSION) -c ' ' -n $(basename $@) \
 		-s $(subst .,,$(suffix $@)) $< > $@
 
 install: all
