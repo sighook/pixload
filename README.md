@@ -390,7 +390,8 @@ consent is illegal and punished by law.
 
 ## DONATIONS
 
-BTC: `bc1qj4g98svq6qh3q2ap37v52nsvusa76c3cnmcdmx`
-PAYPAL: `alexandr.savca89@gmail.com`
+- BTC: `bc1qj4g98svq6qh3q2ap37v52nsvusa76c3cnmcdmx`
+
+- PAYPAL: `alexandr.savca89@gmail.com`
 
 Highly appreciated.
