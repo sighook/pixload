@@ -4,7 +4,7 @@
 
 =head1 NAME
 
-pixload-png - hide payload/malocious code in PNG images
+pixload-png - hide payload/malicious code in PNG images
 
 =head1 SYNOPSIS
 
