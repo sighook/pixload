@@ -30,7 +30,7 @@ Set pixel width for the new image. Default is 32.
 
 Set pixel height for the new image. Default is 32.
 
-=item B<-P>, B<--payload> I<INTEGER>
+=item B<-P>, B<--payload> I<STRING>
 
 Set payload for injection. Default is C<< <script src=//example.com></script> >>.
 
