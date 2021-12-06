@@ -331,8 +331,7 @@ payload.png: PNG image data, 32 x 32, 8-bit/color RGB, non-interlaced
 000000f2
 ```
 
-See
-L<pixload-png(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-png.1.pod>
+See [pixload-png(1)](https://github.com/chinarulezzz/pixload/blob/master/pixload-png.1.pod)
 manual page for more information.
 
 ### webp.pl
