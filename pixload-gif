@@ -97,7 +97,7 @@ Mandatory arguments to long options are mandatory for short options too.
   -v, --version               print version and exit
   -h, --help                  print help and exit
 
-The option -W, --pixelwidth has no effect since ${[ PROGRAM ]} rewrites
+The option -W, --pixelwidth has no effect since @{[ PROGRAM ]} rewrites
 pixel width bytes with "/*" characters, to prepare the polyglot gif image.
 
 If the output FILE already exists, then the payload will be injected into this
