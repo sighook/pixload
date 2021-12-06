@@ -15,7 +15,7 @@ no  warnings 'redefine';
 use feature  'say';
 
 use POSIX;
-use Getopt::Long;
+use Getopt::Long qw(:config no_ignore_case);
 use File::Basename;
 
 use constant PROGRAM => basename $0;
