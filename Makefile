@@ -1,11 +1,12 @@
-# paths
-PREFIX = /usr/local
-MANPREFIX = $(PREFIX)/share/man
+include config.mk
 
 MAN = $(subst .1.pod,.1,$(wildcard *.pod))
 SRC = $(MAN:.1=)
 
-all: $(MAN)
+all: $(SRC) $(MAN)
+
+%: %.in
+	sed "s/@VERSION@/$(VERSION)/" $< > $@
 
 %: %.pod
 	pod2man --nourls -r 0.2 -c ' ' -n $(basename $@) \
