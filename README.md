@@ -360,7 +360,7 @@ manual page for more information.
 ##### Help
 
 ```sh
-$ pixload-webp --help`
+$ pixload-webp --help
 ```
 
 ```
@@ -380,6 +380,10 @@ corrupted.
 ```
 
 ##### Example
+
+```sh
+$ pixload-webp payload.webp
+```
 
 ```
 ........ WebP Payload Creator/Injector ........
