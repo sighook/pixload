@@ -4,7 +4,7 @@ RUN apk add --update --no-cache \
 	--repository http://dl-cdn.alpinelinux.org/alpine/edge/main \
 	--repository http://dl-cdn.alpinelinux.org/alpine/edge/community \
 	--repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
-	perl perl-gd perl-image-exiftool perl-string-crc32
+	make perl perl-gd perl-image-exiftool perl-string-crc32
 
 COPY . /pixload
 RUN sed -i '/install .* $(DESTDIR)$(MANPREFIX)/d' /pixload/Makefile && \
