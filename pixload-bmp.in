@@ -112,8 +112,10 @@ sub main {
     &create_bmp if ! -f $opts{FILE};
     &inject_payload;
 
-    say `file       $opts{FILE}`   if -f '/usr/bin/file';
-    say `hexdump -C $opts{FILE}`   if -f '/usr/bin/hexdump';
+    if    (-f '/usr/bin/file'   ) { say `file       $opts{FILE}` }
+
+    if    (-f '/usr/bin/hexdump') { say `hexdump -C $opts{FILE}` }
+    elsif (-f '/usr/bin/xxd'    ) { say `xxd        $opts{FILE}` }
 }
 
 &main;
