@@ -69,7 +69,7 @@ created.
 
 =head1 SEE ALSO
 
-L<pixload-bmp(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-bmp.1.pod>
+L<pixload-bmp(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-bmp.1.pod>,
 L<pixload-gif(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-gif.1.pod>,
 L<pixload-jpg(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-jpg.1.pod>,
 L<pixload-png(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-png.1.pod>
