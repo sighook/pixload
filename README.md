@@ -12,7 +12,7 @@ Useful references for better understanding of `pixload` and its use-cases:
 
 - [Bypassing CSP using polyglot JPEGs](https://portswigger.net/blog/bypassing-csp-using-polyglot-jpegs)
 
-- [Hacking group using Polyglot images to hide malvertising attacks](https://devcondetect.com/blog/2019/2/24/hacking-group-using-polyglot-images-to-hide-malvertsing-attacks)
+- [Hacking group using Polyglot images to hide malvertising attacks](https://web.archive.org/web/20190226193728/https://devcondetect.com/blog/2019/2/24/hacking-group-using-polyglot-images-to-hide-malvertsing-attacks)
 
 - [Encoding Web Shells in PNG IDAT chunks](https://www.idontplaydarts.com/2012/06/encoding-web-shells-in-png-idat-chunks/)
 
@@ -22,7 +22,8 @@ Useful references for better understanding of `pixload` and its use-cases:
 
 If you want to encode a payload in such a way that the resulting binary blob is
 both valid x86 shellcode and a valid image file, I recommend you to look
-[here](https://warroom.securestate.com/bmp-x86-polyglot/) and
+[here](https://web.archive.org/web/20201008001325/https://warroom.securestate.com/bmp-x86-polyglot/)
+and
 [here](https://github.com/rapid7/metasploit-framework/blob/master/modules/encoders/x86/bmp_polyglot.rb).
 
 #### msfvenom
