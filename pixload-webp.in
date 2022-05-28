@@ -88,11 +88,10 @@ Mandatory arguments to long options are mandatory for short options too.
   -v, --version          print version and exit
   -h, --help             print help and exit
 
-Currently, there is no possibility to inject the payload into an existing
-WebP image. Only the new (minimal) WebP image will be created and your
-payload will be injected into. If the output FILE already exists, the
-payload will be injected into the existing image, but this image will be
-corrupted.
+Currently, there is no possibility to inject the payload into an existing WebP
+image. Only the new (minimal) WebP image will be created and your payload will
+be injected into. If the output FILE already exists, the payload will be
+injected into the existing image, but this image will be corrupted.
 EOF
 }
 
