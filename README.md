@@ -421,7 +421,7 @@ manual page for more information.
 
 ## LICENSE
 
-WTFPL.
+WTFPL version 2.
 See [LICENSE](https://github.com/chinarulezzz/pixload/blob/master/LICENSE)
 for more information.
 
