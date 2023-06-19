@@ -52,10 +52,10 @@ Print help and exit.
 =head1 EXAMPLE
 
   $ pixload-gif payload.gif
-  ........ GIF Payload Creator/Injector .........
-  ...............................................
-  ... https://github.com/chinarulezzz/pixload ...
-  ...............................................
+  ...... GIF Payload Creator/Injector ......
+  ..........................................
+  ... https://github.com/sighook/pixload ...
+  ..........................................
 
   [>] Generating output file
   [✔] File saved to: payload.gif
@@ -76,9 +76,9 @@ Print help and exit.
 
 =head1 SEE ALSO
 
-L<pixload-bmp(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-bmp.1.pod>,
-L<pixload-jpg(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-jpg.1.pod>,
-L<pixload-png(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-png.1.pod>,
-L<pixload-webp(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-webp.1.pod>
+L<pixload-bmp(1)|https://github.com/sighook/pixload/blob/master/pixload-bmp.1.pod>,
+L<pixload-jpg(1)|https://github.com/sighook/pixload/blob/master/pixload-jpg.1.pod>,
+L<pixload-png(1)|https://github.com/sighook/pixload/blob/master/pixload-png.1.pod>,
+L<pixload-webp(1)|https://github.com/sighook/pixload/blob/master/pixload-webp.1.pod>
 
 =cut

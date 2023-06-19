@@ -42,10 +42,10 @@ this existing file. Otherwise, the new one will be created.
 =head1 EXAMPLE
 
   $ pixload-bmp payload.bmp
-  ......... BMP Payload Creator/Injector ........
-  ...............................................
-  ... https://github.com/chinarulezzz/pixload ...
-  ...............................................
+  ...... BMP Payload Creator/Injector ......
+  ..........................................
+  ... https://github.com/sighook/pixload ...
+  ..........................................
 
   [>] Generating output file
   [✔] File saved to: payload.bmp
@@ -64,9 +64,9 @@ this existing file. Otherwise, the new one will be created.
 
 =head1 SEE ALSO
 
-L<pixload-gif(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-gif.1.pod>,
-L<pixload-jpg(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-jpg.1.pod>,
-L<pixload-png(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-png.1.pod>,
-L<pixload-webp(1)|https://github.com/chinarulezzz/pixload/blob/master/pixload-webp.1.pod>
+L<pixload-gif(1)|https://github.com/sighook/pixload/blob/master/pixload-gif.1.pod>,
+L<pixload-jpg(1)|https://github.com/sighook/pixload/blob/master/pixload-jpg.1.pod>,
+L<pixload-png(1)|https://github.com/sighook/pixload/blob/master/pixload-png.1.pod>,
+L<pixload-webp(1)|https://github.com/sighook/pixload/blob/master/pixload-webp.1.pod>
 
 =cut
