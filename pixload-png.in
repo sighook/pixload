@@ -31,7 +31,7 @@ use String::CRC32;
 my %opts = (
     pixelwidth      =>  32,
     pixelheight     =>  32,
-    payload         =>  '<script src=//example.com></script>',
+    payload         =>  '<script\x20type="text/javascript">javascript:alert(1);</script>',
 );
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
